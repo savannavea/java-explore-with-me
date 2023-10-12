@@ -27,6 +27,19 @@ public class StatsServiceImpl implements StatsService {
 
     @Override
     public List<HitResponseDto> getStats(LocalDateTime start, LocalDateTime end, List<String> uris, Boolean unique) {
-        return null;
+
+        if (uris == null || uris.isEmpty()) {
+            if (unique) {
+                return statsRepository.getStatsUnique(start, end);
+            } else {
+                return statsRepository.getStats(start, end);
+            }
+        } else {
+            if (unique) {
+                return statsRepository.getStatsUriUnique(start, end, uris);
+            } else {
+                return statsRepository.getStatsUri(start, end, uris);
+            }
     }
+}
 }
