@@ -27,7 +27,9 @@ public class StatsServiceImpl implements StatsService {
 
     @Override
     public List<HitResponseDto> getStats(LocalDateTime start, LocalDateTime end, List<String> uris, Boolean unique) {
-
+        if (start.isAfter(end)) {
+            throw new IllegalArgumentException("The start time cannot be later than the end date of the range!");
+        }
         if (uris == null || uris.isEmpty()) {
             if (unique) {
                 return statsRepository.getStatsUnique(start, end);
