@@ -1,23 +1,33 @@
-version: '3.1'
+version: '3.8'
 services:
+  main-service:
+    build: main-service/
+    container_name: main-service-image
+    restart: always
+    ports:
+      - "8080:8080"
+      - "5006:5006"
+    depends_on:
+      - stats-server
+      - db
+    environment:
+      JAVA_TOOL_OPTIONS: "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5006"
+      STATS_SERVER_URL: "http://server:9090"
+
+
   stats-server:
-    build: stats/stats-server
-    container_name: shareit-gateway-image
+    build: stats-server/
+    container_name: stats-server-image
     restart: always
     ports:
       - "9090:9090"
-      - "5006:5006"
+      - "5005:5005"
     depends_on:
-      - server
       - db
     environment:
-      POSTGRES_USER: root
-      POSTGRES_PASSWORD: root
-      POSTGRES_DB: ewmstats
+      JAVA_TOOL_OPTIONS: "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005"
 
-
-
-  stats-db:
+  db:
     image: postgres:13.7-alpine
     restart: always
     ports:
@@ -25,4 +35,4 @@ services:
     environment:
       POSTGRES_USER: root
       POSTGRES_PASSWORD: root
-      POSTGRES_DB: ewmstats
+      POSTGRES_DB: stats
