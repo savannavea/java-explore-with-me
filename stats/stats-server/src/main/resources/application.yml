@@ -1,0 +1,19 @@
+server:
+  port: 9090
+
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: none
+      dialect: org.hibernate.dialect.PostgreSQL10Dialect
+      format_sql: true
+
+  sql:
+     init:
+       mode: always
+
+  datasource:
+    driverClassName: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/stats
+    username: root
+    password: root

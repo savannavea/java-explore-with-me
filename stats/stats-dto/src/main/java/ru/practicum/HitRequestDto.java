@@ -16,8 +16,6 @@ import java.time.LocalDateTime;
 @Builder
 public class HitRequestDto {
 
-    //private Long id;
-
     @NotBlank(message = "The name of the application cannot be empty")
     private String app;
 

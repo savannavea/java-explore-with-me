@@ -6,10 +6,12 @@ services:
     container_name: stats-server-container
     ports:
       - "9090:9090"
+      - "5005:5005"
     depends_on:
       - stats-db
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://stats-db:5432/stats
+     JAVA_TOOL_OPTIONS: "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005"
+     SPRING_DATASOURCE_URL: "jdbc:postgresql://stats-db:5432/stats"
 
   stats-db:
     image: postgres:14-alpine
