@@ -18,7 +18,7 @@ public class StatsMapper {
     public static Stat toStat(HitRequestDto hitRequestDto) {
         return Stat.builder()
                 .app(hitRequestDto.getApp())
-                .id(hitRequestDto.getId())
+                //.id(hitRequestDto.getId())
                 .ip(hitRequestDto.getIp())
                 .timestamp(hitRequestDto.getTimestamp())
                 .uri(hitRequestDto.getUri())

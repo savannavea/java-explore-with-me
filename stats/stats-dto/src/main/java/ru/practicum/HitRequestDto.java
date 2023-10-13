@@ -1,5 +1,6 @@
 package ru.practicum;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,7 +16,7 @@ import java.time.LocalDateTime;
 @Builder
 public class HitRequestDto {
 
-    private Long id;
+    //private Long id;
 
     @NotBlank(message = "The name of the application cannot be empty")
     private String app;
@@ -26,6 +27,7 @@ public class HitRequestDto {
     @NotBlank(message = "User IP cannot be empty")
     private String ip;
 
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @NotNull(message = "The time of sending the request cannot be empty")
     private LocalDateTime timestamp;
 
