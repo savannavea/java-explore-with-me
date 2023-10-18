@@ -17,6 +17,12 @@ public class ErrorHandler {
     }
 
     @ExceptionHandler
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorResponse handleIllegalArgument(final BadRequestException e) {
+        return new ErrorResponse(String.format(e.getMessage()));
+    }
+
+    @ExceptionHandler
     @ResponseStatus(HttpStatus.CONFLICT)
     public ErrorResponse handleEmailExistingException(final ConflictException exception) {
         return new ErrorResponse(exception.getMessage());
