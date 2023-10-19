@@ -1,9 +1,9 @@
 package ru.practicum.event.model;
 
 import lombok.*;
-import ru.practicum.location.model.Location;
 import ru.practicum.category.model.Category;
 import ru.practicum.event.enums.EventState;
+import ru.practicum.location.model.Location;
 import ru.practicum.request.model.Request;
 import ru.practicum.user.model.User;
 

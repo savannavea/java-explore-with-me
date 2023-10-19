@@ -3,17 +3,26 @@ package ru.practicum.compilations.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import ru.practicum.category.mapper.CategoryMapper;
 import ru.practicum.compilations.dto.CompilationDto;
 import ru.practicum.compilations.dto.NewCompilationDto;
 import ru.practicum.compilations.dto.UpdateCompilationRequest;
+import ru.practicum.compilations.mapper.CompilationMapper;
 import ru.practicum.compilations.model.Compilation;
 import ru.practicum.compilations.repository.CompilationRepository;
+import ru.practicum.event.dto.EventShortDto;
+import ru.practicum.event.mapper.EventMapper;
+import ru.practicum.event.model.Event;
 import ru.practicum.event.repository.EventRepository;
 import ru.practicum.exception.NotFoundException;
+import ru.practicum.user.mapper.UserMapper;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -36,20 +45,42 @@ public class CompilationServiceImpl implements CompilationService {
         if (compilations.isEmpty()) {
             return Collections.emptyList();
         }
-        return null;
-     /*   return compilations.stream().map(compilation ->
-                CompilationMapper.toCompilationDto(compilation,
-                        toCompilationDtoList(compilation.getEvents()))).collect(Collectors.toList());*/
+        return compilations
+                .stream()
+                .map(compilation ->
+                        CompilationMapper.toCompilationDto(compilation,
+                                toCompilationDtoList(compilation.getEvents()))).collect(Collectors.toList());
     }
 
     @Override
     public CompilationDto getCompilationById(Long compId) {
-        return null;
+        Compilation compilation = getCompilationOrElseThrow(compId);
+        return CompilationMapper.toCompilationDto(compilation, compilation.getEvents()
+                .stream()
+                .map(e -> EventMapper.toEventShortDto(e,
+                        CategoryMapper.toCategoryDto(e.getCategory()),
+                        UserMapper.toUserShortDto(e.getInitiator())))
+                .collect(Collectors.toList()));
     }
 
     @Override
     public CompilationDto createCompilation(NewCompilationDto newCompilationDto) {
-        return null;
+        List<Event> events = new ArrayList<>();
+
+        if (!Objects.isNull(newCompilationDto.getEvents())) {
+            events = eventRepository.getByIdIn(newCompilationDto.getEvents());
+        }
+
+        Compilation compilation = CompilationMapper.toCompilation(newCompilationDto, events);
+
+        Compilation savedCompilation = compilationRepository.save(compilation);
+
+        return CompilationMapper.toCompilationDto(savedCompilation, events
+                .stream()
+                .map(e -> EventMapper.toEventShortDto(e,
+                        CategoryMapper.toCategoryDto(e.getCategory()),
+                        UserMapper.toUserShortDto(e.getInitiator())))
+                .collect(Collectors.toList()));
     }
 
     @Override
@@ -61,7 +92,41 @@ public class CompilationServiceImpl implements CompilationService {
 
     @Override
     public CompilationDto updateCompilation(Long compId, UpdateCompilationRequest updateCompilationRequest) {
-        return null;
+        Compilation compilation = getCompilationOrElseThrow(compId);
+        List<Event> events = new ArrayList<>();
+
+        if (!Objects.isNull(updateCompilationRequest.getEvents())) {
+            events = eventRepository.getByIdIn(updateCompilationRequest.getEvents());
+        }
+        compilation.setEvents(events);
+
+        if (!Objects.isNull(updateCompilationRequest.getTitle())) {
+            compilation.setTitle(updateCompilationRequest.getTitle());
+        }
+
+        if (!Objects.isNull(updateCompilationRequest.getPinned())) {
+            compilation.setPinned(updateCompilationRequest.getPinned());
+        }
+
+        Compilation savedCompilation = compilationRepository.save(compilation);
+
+        return CompilationMapper.toCompilationDto(savedCompilation, events
+                .stream()
+                .map(e -> EventMapper.toEventShortDto(e,
+                        CategoryMapper.toCategoryDto(e.getCategory()),
+                        UserMapper.toUserShortDto(e.getInitiator())))
+                .collect(Collectors.toList()));
+    }
+
+    private List<EventShortDto> toCompilationDtoList(List<Event> events) {
+        return events
+                .stream()
+                .map(event -> EventMapper.toEventShortDto(
+                        event,
+                        CategoryMapper.toCategoryDto(event.getCategory()),
+                        UserMapper.toUserShortDto(event.getInitiator())
+                ))
+                .collect(Collectors.toList());
     }
 
     private Compilation getCompilationOrElseThrow(Long compId) {
@@ -69,5 +134,4 @@ public class CompilationServiceImpl implements CompilationService {
                 .findById(compId)
                 .orElseThrow(() -> new NotFoundException("There is no such collection."));
     }
-
 }

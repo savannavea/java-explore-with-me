@@ -21,15 +21,19 @@ public interface EventService {
 
     List<ParticipationRequestDto> getRequestUserEvents(Long userId, Long eventId);
 
-    EventRequestStatusUpdateResult updateStatusRequestByUserIdForEvents(Long userId, Long eventId, EventRequestStatusUpdateRequest requestDto);
+    EventRequestStatusUpdateResult updateStatusRequestByUserIdForEvents(Long userId, Long eventId,
+                                                                        EventRequestStatusUpdateRequest requestDto);
 
-    List<EventShortDto> getEvents(String text, List<Long> categories, Boolean paid, LocalDateTime start, LocalDateTime end, Boolean onlyAvailable, EventSortType sort, Integer from, Integer size, HttpServletRequest request);
+    List<EventShortDto> getEvents(String text, List<Long> categories, Boolean paid, LocalDateTime start,
+                                  LocalDateTime end, Boolean onlyAvailable, EventSortType sort, Integer from,
+                                  Integer size, HttpServletRequest request);
 
     EventFullDto getEventById(Long id, HttpServletRequest request);
 
-    List<EventFullDto> adminGetEvents(List<Long> users, List<EventState> states, List<Long> categories, String rangeStart, String rangeEnd, Integer from, Integer size);
+    List<EventFullDto> adminGetEvents(List<Long> users, List<EventState> states, List<Long> categories,
+                                      String start, String end, Integer from, Integer size);
 
     EventFullDto adminUpdateEvent(Long eventId, UpdateEventRequestDto requestDto);
 
-    Event getEventOrElseEtrow(Long eventId);
+    Event getEventOrElseThrow(Long eventId);
 }

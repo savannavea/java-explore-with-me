@@ -68,6 +68,7 @@ public class CategoryServiceImpl implements CategoryService {
     public Category getCategoryOrElseThrow(Long categoryId) {
         return categoryRepository
                 .findById(categoryId)
-                .orElseThrow(() -> new NotFoundException(String.format("Category with id=%s was not found", categoryId)));
+                .orElseThrow(() -> new NotFoundException(String.format(
+                        "Category with id=%s was not found", categoryId)));
     }
 }

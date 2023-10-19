@@ -3,8 +3,8 @@ package ru.practicum.event.mapper;
 import ru.practicum.category.dto.CategoryDto;
 import ru.practicum.category.mapper.CategoryMapper;
 import ru.practicum.category.model.Category;
-import ru.practicum.event.dto.EventShortDto;
 import ru.practicum.event.dto.EventFullDto;
+import ru.practicum.event.dto.EventShortDto;
 import ru.practicum.event.dto.NewEventDto;
 import ru.practicum.event.enums.EventState;
 import ru.practicum.event.model.Event;
@@ -71,8 +71,9 @@ public class EventMapper {
                 .title(newEventDto.getTitle())
                 .build();
     }
+
     public static EventFullDto toEventFullDto(Event event) {
-        EventFullDto eventFullDto = EventFullDto.builder()
+        return EventFullDto.builder()
                 .annotation(event.getAnnotation())
                 .category(CategoryMapper.toCategoryDto(event.getCategory()))
                 .confirmedRequests(event.getConfirmedRequests())
@@ -90,8 +91,8 @@ public class EventMapper {
                 .title(event.getTitle())
                 .views(event.getViews())
                 .build();
-        return eventFullDto;
     }
+
     public static List<EventFullDto> toEventShortDtoList(Iterable<Event> events) {
         List<EventFullDto> result = new ArrayList<>();
 
@@ -99,5 +100,17 @@ public class EventMapper {
             result.add(toEventFullDto(event));
         }
         return result;
+    }
+
+    public static EventShortDto toToShortDto(Event event) {
+        return EventShortDto.builder()
+                .annotation(event.getAnnotation())
+                .category(CategoryMapper.toCategoryDto(event.getCategory()))
+                .eventDate(event.getEventDate())
+                .id(event.getId())
+                .initiator(UserMapper.toUserShortDto(event.getInitiator()))
+                .paid(event.getPaid())
+                .title(event.getTitle())
+                .build();
     }
 }

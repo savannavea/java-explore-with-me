@@ -1,7 +1,6 @@
 package ru.practicum.event;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.event.dto.EventFullDto;
 import ru.practicum.event.dto.EventShortDto;
@@ -15,7 +14,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @RestController
-@Slf4j
 @RequiredArgsConstructor
 @RequestMapping("/events")
 public class PublicEventController {
@@ -45,7 +43,6 @@ public class PublicEventController {
 
         if (start != null && end != null) {
             if (start.isAfter(end)) {
-                log.info("Start date {} is after end date {}.", start, end);
                 throw new ValidationException(String.format("Start date %s is after end date %s.", start, end));
             }
         }
@@ -58,5 +55,4 @@ public class PublicEventController {
 
         return eventService.getEventById(id, request);
     }
-
 }

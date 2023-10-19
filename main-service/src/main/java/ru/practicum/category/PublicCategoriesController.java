@@ -27,5 +27,4 @@ public class PublicCategoriesController {
     public CategoryDto getCategoriesId(@PathVariable Long catId) {
         return categoryService.getCategoryId(catId);
     }
-
 }

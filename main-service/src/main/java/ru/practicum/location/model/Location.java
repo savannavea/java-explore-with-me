@@ -22,6 +22,4 @@ public class Location {
 
     @Column(name = "lon", nullable = false)
     private Float lon;
-    ;
-
 }

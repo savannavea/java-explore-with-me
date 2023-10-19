@@ -31,5 +31,4 @@ public class Compilation {
             inverseJoinColumns = @JoinColumn(name = "events_id", referencedColumnName = "id")
     )
     private List<Event> events;
-
 }

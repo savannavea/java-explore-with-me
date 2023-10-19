@@ -45,7 +45,7 @@ public class RequestServiceImpl implements RequestService {
     @Override
     public ParticipationRequestDto create(Long userId, Long eventId) {
         User user = userService.getUserOrElseThrow(userId);
-        Event event = eventService.getEventOrElseEtrow(eventId);
+        Event event = eventService.getEventOrElseThrow(eventId);
         Request requestExist = requestRepository.findOneByEventIdAndRequesterId(eventId, userId);
 
         if (event.getState() != EventState.PUBLISHED) {

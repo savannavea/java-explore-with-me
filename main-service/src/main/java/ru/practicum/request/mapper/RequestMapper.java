@@ -38,5 +38,4 @@ public class RequestMapper {
                 .rejectedRequests(rejectedRequests.stream().map(RequestMapper::toRequestDto).collect(Collectors.toList()))
                 .build();
     }
-
 }

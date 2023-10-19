@@ -30,5 +30,4 @@ public class RequestController {
     public ParticipationRequestDto cancelRequest(@PathVariable Long userId, @PathVariable Long requestId) {
         return requestsService.cancelRequest(userId, requestId);
     }
-
 }

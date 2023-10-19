@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 import ru.practicum.category.dto.CategoryDto;
 import ru.practicum.user.dto.UserShortDto;
+
 import java.time.LocalDateTime;
 
 @Getter
@@ -12,7 +13,6 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Builder
 public class EventShortDto {
-
     private Long id;
 
     private String annotation;
@@ -31,5 +31,4 @@ public class EventShortDto {
     private String title;
 
     private Long views;
-
 }
