@@ -18,10 +18,8 @@ import java.util.Map;
 @Component
 @RequiredArgsConstructor
 public class StatisticClient {
-
     private static final String APP = "main-service";
     private static final int YEARS_OFFSET = 100;
-
     private StatsClient statsClient;
 
     public ResponseEntity<Object> saveHit(String uri, String ip) {
