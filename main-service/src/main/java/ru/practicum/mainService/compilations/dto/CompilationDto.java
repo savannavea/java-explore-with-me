@@ -5,8 +5,7 @@ import ru.practicum.mainService.event.dto.EventShortDto;
 
 import java.util.List;
 
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder

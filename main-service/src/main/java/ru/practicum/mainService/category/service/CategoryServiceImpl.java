@@ -42,14 +42,15 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public CategoryDto updateCategoryById(Long categoryId, NewCategoryDto newCategoryDto) {
         Category category = getCategoryOrElseThrow(categoryId);
-        newCategoryDto.setName(newCategoryDto.getName());
+        category.setName(newCategoryDto.getName());
 
         return CategoryMapper.toCategoryDto(categoryRepository.save(category));
     }
 
     @Override
     public List<CategoryDto> getCategory(Integer from, Integer size) {
-        Pageable pageable = PageRequest.of(from, size);
+        int offset = from > 0 ? from / size : 0;
+        Pageable pageable = PageRequest.of(offset, size);
 
         return categoryRepository
                 .findAll(pageable)

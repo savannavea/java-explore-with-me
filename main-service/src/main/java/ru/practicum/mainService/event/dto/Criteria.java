@@ -1,39 +1,26 @@
 package ru.practicum.mainService.event.dto;
 
 import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
-import ru.practicum.mainService.event.enums.EventSortType;
+import lombok.Data;
 import ru.practicum.mainService.event.enums.EventState;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
-@Getter
-@Setter
+@Data
 @Builder
 public class Criteria {
-    private Boolean published;
-
-    private String text;
-
     private List<Long> users;
 
     private List<EventState> states;
 
     private List<Long> categories;
 
-    private Boolean paid;
+    private LocalDateTime rangeStart;
 
-    private LocalDateTime start;
+    private LocalDateTime rangeEnd;
 
-    private LocalDateTime end;
+    private Integer from;
 
-    private EventSortType sort;
-
-    private List<Long> locationIds;
-
-    private int from;
-
-    private int size;
+    private Integer size;
 }

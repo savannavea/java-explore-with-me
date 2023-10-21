@@ -18,8 +18,13 @@ public class Location {
     private Long id;
 
     @Column(name = "lat", nullable = false)
-    private Float lat;
+    private float lat;
 
     @Column(name = "lon", nullable = false)
-    private Float lon;
+    private float lon;
+
+    public Location(Float lat, Float lon) {
+        this.lat = lat;
+        this.lon = lon;
+    }
 }

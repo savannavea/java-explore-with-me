@@ -6,8 +6,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.mainService.exception.NotFoundException;
+import ru.practicum.mainService.user.dto.NewUserDto;
 import ru.practicum.mainService.user.dto.UserDto;
-import ru.practicum.mainService.user.dto.UserShortDto;
 import ru.practicum.mainService.user.mapper.UserMapper;
 import ru.practicum.mainService.user.model.User;
 import ru.practicum.mainService.user.repository.UserRepository;
@@ -24,18 +24,24 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<UserDto> getUsers(List<Long> ids, Integer from, Integer size) {
-        Pageable pageable = PageRequest.of(from, size);
+        int offset = from > 0 ? from / size : 0;
+        Pageable pageable = PageRequest.of(offset, size);
+        List<User> users;
+        if (ids == null || ids.isEmpty()) {
+            users = userRepository.findAll(pageable).getContent();
+        } else {
+            users = userRepository.findByIdIn(ids, pageable);
+        }
 
-        return userRepository
-                .getAllUsers(ids, pageable)
+        return users
                 .stream()
                 .map(UserMapper::toUserDto)
                 .collect(Collectors.toList());
     }
 
     @Override
-    public UserDto create(UserShortDto userShortDto) {
-        return UserMapper.toUserDto(userRepository.save(UserMapper.toUser(userShortDto)));
+    public UserDto create(NewUserDto newUserDto) {
+        return UserMapper.toUserDto(userRepository.save(UserMapper.toUser(newUserDto)));
     }
 
     @Override

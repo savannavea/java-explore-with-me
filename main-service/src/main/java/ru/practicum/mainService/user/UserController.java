@@ -3,8 +3,8 @@ package ru.practicum.mainService.user;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import ru.practicum.mainService.user.dto.NewUserDto;
 import ru.practicum.mainService.user.dto.UserDto;
-import ru.practicum.mainService.user.dto.UserShortDto;
 import ru.practicum.mainService.user.service.UserService;
 
 import javax.validation.Valid;
@@ -29,8 +29,8 @@ public class UserController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public UserDto create(@RequestBody @Valid UserShortDto userShortDto) {
-        return userService.create(userShortDto);
+    public UserDto create(@RequestBody @Valid NewUserDto newUserDto) {
+        return userService.create(newUserDto);
     }
 
     @DeleteMapping

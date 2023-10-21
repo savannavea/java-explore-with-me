@@ -46,6 +46,7 @@ public class StatsClient extends BaseClient {
         parameters.put("uris", String.join(",", uris));
         parameters.put("unique", unique);
         String query = "?start={start}&end={end}&uris={uris}&unique={unique}";
+        get("/hit" + query, parameters);
         ResponseEntity<List<HitResponseDto>> response = restTemplate.exchange("/hit" + query,
                 HttpMethod.GET, null,
                 new ParameterizedTypeReference<>() {

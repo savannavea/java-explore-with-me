@@ -5,8 +5,7 @@ import ru.practicum.mainService.request.dto.ParticipationRequestDto;
 
 import java.util.List;
 
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder

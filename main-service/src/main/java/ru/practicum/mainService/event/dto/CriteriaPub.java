@@ -1,15 +1,13 @@
 package ru.practicum.mainService.event.dto;
 
 import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 import ru.practicum.mainService.event.enums.EventSortType;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
-@Getter
-@Setter
+@Data
 @Builder
 public class CriteriaPub {
     private String text;

@@ -44,13 +44,13 @@ public class CustomEventRepository {
             predicates.add(categories);
         }
 
-        if (criteria.getStart() != null) {
-            Predicate start = builder.greaterThan(root.get("eventDate"), criteria.getStart());
+        if (criteria.getRangeStart() != null) {
+            Predicate start = builder.greaterThan(root.get("eventDate"), criteria.getRangeStart());
             predicates.add(start);
         }
 
-        if (criteria.getEnd() != null) {
-            Predicate end = builder.lessThan(root.get("eventDate"), criteria.getEnd());
+        if (criteria.getRangeEnd() != null) {
+            Predicate end = builder.lessThan(root.get("eventDate"), criteria.getRangeEnd());
             predicates.add(end);
         }
 

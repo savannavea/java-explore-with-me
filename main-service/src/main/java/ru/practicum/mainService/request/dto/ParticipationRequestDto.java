@@ -6,8 +6,7 @@ import ru.practicum.mainService.request.enums.RequestStatus;
 
 import java.time.LocalDateTime;
 
-@Getter
-@Setter
+@Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor

@@ -3,6 +3,7 @@ package ru.practicum.mainService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
+
 import ru.practicum.client.StatsClient;
 import ru.practicum.mainService.event.dto.EventFullDto;
 import ru.practicum.mainService.event.dto.EventShortDto;
@@ -20,6 +21,7 @@ import java.util.Map;
 public class StatisticClient {
     private static final String APP = "main-service";
     private static final int YEARS_OFFSET = 100;
+
     private StatsClient statsClient;
 
     public ResponseEntity<Object> saveHit(String uri, String ip) {
@@ -52,24 +54,24 @@ public class StatisticClient {
         List<HitResponseDto> hits = statsClient.getStatistic(LocalDateTime.now().minusYears(YEARS_OFFSET),
                 LocalDateTime.now(), uris, true);
         if (!hits.isEmpty()) {
-            Map<Long, Long> hitMap = mapHits(hits);
+            Map<Long, Integer> hitMap = mapHits(hits);
             for (EventShortDto event : events) {
-                event.setViews(hitMap.getOrDefault(event.getId(), 0L));
+                event.setViews(hitMap.getOrDefault(event.getId(), 0));
             }
         } else {
             for (EventShortDto event : events) {
-                event.setViews(0L);
+                event.setViews(0);
             }
         }
         return events;
     }
 
-    private Map<Long, Long> mapHits(List<HitResponseDto> hits) {
-        Map<Long, Long> hitMap = new HashMap<>();
+    private Map<Long, Integer> mapHits(List<HitResponseDto> hits) {
+        Map<Long, Integer> hitMap = new HashMap<>();
         for (HitResponseDto hit : hits) {
             String hitUri = hit.getUri();
             Long id = Long.valueOf(hitUri.substring(8));
-            hitMap.put(id, hit.getHits());
+            hitMap.put(id, (int) hit.getHits());
         }
         return hitMap;
     }

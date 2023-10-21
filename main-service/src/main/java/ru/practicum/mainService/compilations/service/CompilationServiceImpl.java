@@ -21,7 +21,6 @@ import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -55,32 +54,22 @@ public class CompilationServiceImpl implements CompilationService {
     @Override
     public CompilationDto getCompilationById(Long compId) {
         Compilation compilation = getCompilationOrElseThrow(compId);
-        return CompilationMapper.toCompilationDto(compilation, compilation.getEvents()
-                .stream()
-                .map(e -> EventMapper.toEventShortDto(e,
-                        CategoryMapper.toCategoryDto(e.getCategory()),
-                        UserMapper.toUserShortDto(e.getInitiator())))
-                .collect(Collectors.toList()));
+        return CompilationMapper.toCompilationDto(compilation, toCompilationDtoList(compilation.getEvents()));
     }
 
     @Override
     public CompilationDto createCompilation(NewCompilationDto newCompilationDto) {
         List<Event> events = new ArrayList<>();
 
-        if (!Objects.isNull(newCompilationDto.getEvents())) {
-            events = eventRepository.getByIdIn(newCompilationDto.getEvents());
+        if (newCompilationDto.getEvents() != null) {
+            events = eventRepository.findAllById(newCompilationDto.getEvents());
         }
 
         Compilation compilation = CompilationMapper.toCompilation(newCompilationDto, events);
 
         Compilation savedCompilation = compilationRepository.save(compilation);
 
-        return CompilationMapper.toCompilationDto(savedCompilation, events
-                .stream()
-                .map(e -> EventMapper.toEventShortDto(e,
-                        CategoryMapper.toCategoryDto(e.getCategory()),
-                        UserMapper.toUserShortDto(e.getInitiator())))
-                .collect(Collectors.toList()));
+        return CompilationMapper.toCompilationDto(savedCompilation, toCompilationDtoList(events));
     }
 
     @Override
@@ -93,29 +82,24 @@ public class CompilationServiceImpl implements CompilationService {
     @Override
     public CompilationDto updateCompilation(Long compId, UpdateCompilationRequest updateCompilationRequest) {
         Compilation compilation = getCompilationOrElseThrow(compId);
-        List<Event> events = new ArrayList<>();
 
-        if (!Objects.isNull(updateCompilationRequest.getEvents())) {
-            events = eventRepository.getByIdIn(updateCompilationRequest.getEvents());
+        if (updateCompilationRequest.getEvents() != null) {
+            compilation.setEvents(getFromId(updateCompilationRequest.getEvents()));
         }
-        compilation.setEvents(events);
-
-        if (!Objects.isNull(updateCompilationRequest.getTitle())) {
-            compilation.setTitle(updateCompilationRequest.getTitle());
-        }
-
-        if (!Objects.isNull(updateCompilationRequest.getPinned())) {
+        if (updateCompilationRequest.getPinned() != null) {
             compilation.setPinned(updateCompilationRequest.getPinned());
         }
-
+        if (updateCompilationRequest.getTitle() != null) {
+            compilation.setTitle(updateCompilationRequest.getTitle());
+        }
         Compilation savedCompilation = compilationRepository.save(compilation);
 
-        return CompilationMapper.toCompilationDto(savedCompilation, events
-                .stream()
-                .map(e -> EventMapper.toEventShortDto(e,
-                        CategoryMapper.toCategoryDto(e.getCategory()),
-                        UserMapper.toUserShortDto(e.getInitiator())))
-                .collect(Collectors.toList()));
+        List<Event> events = new ArrayList<>();
+        if (updateCompilationRequest.getEvents() != null) {
+            events = eventRepository.findAllById(updateCompilationRequest.getEvents());
+        }
+
+        return CompilationMapper.toCompilationDto(savedCompilation, toCompilationDtoList(events));
     }
 
     private List<EventShortDto> toCompilationDtoList(List<Event> events) {
@@ -127,6 +111,19 @@ public class CompilationServiceImpl implements CompilationService {
                         UserMapper.toUserShortDto(event.getInitiator())
                 ))
                 .collect(Collectors.toList());
+    }
+
+    private List<Event> getFromId(List<Long> evenIdList) {
+        List<Event> events = eventRepository.findAllByIdIn(evenIdList);
+        if (events.size() != evenIdList.size()) {
+            List<Long> list = new ArrayList<>();
+            for (Event event : events) {
+                Long id = event.getId();
+                list.add(id);
+            }
+            evenIdList.removeAll(list);
+        }
+        return events;
     }
 
     private Compilation getCompilationOrElseThrow(Long compId) {

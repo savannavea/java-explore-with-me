@@ -7,8 +7,7 @@ import ru.practicum.mainService.user.dto.UserShortDto;
 
 import java.time.LocalDateTime;
 
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -30,5 +29,5 @@ public class EventShortDto {
 
     private String title;
 
-    private Long views;
+    private Integer views;
 }

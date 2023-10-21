@@ -2,12 +2,12 @@ package ru.practicum.mainService.category;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.mainService.category.dto.CategoryDto;
 import ru.practicum.mainService.category.dto.NewCategoryDto;
 import ru.practicum.mainService.category.service.CategoryService;
 
+import javax.validation.Valid;
 import javax.validation.constraints.Positive;
 
 @RestController
@@ -19,7 +19,7 @@ public class AdminCategoryController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    public CategoryDto createCategory(@Validated @RequestBody NewCategoryDto newCategoryDto) {
+    public CategoryDto createCategory(@RequestBody @Valid NewCategoryDto newCategoryDto) {
         return categoryService.createCategory(newCategoryDto);
     }
 
@@ -29,9 +29,10 @@ public class AdminCategoryController {
         categoryService.deleteCategoryById(catId);
     }
 
+    @ResponseStatus(HttpStatus.OK)
     @PatchMapping("/{catId}")
-    public CategoryDto updateCategoryById(@PathVariable("catId") @Positive Long categoryId,
-                                          @Validated @RequestBody NewCategoryDto newCategoryDto) {
+    public CategoryDto updateCategoryById(@PathVariable("catId") Long categoryId,
+                                          @RequestBody @Valid NewCategoryDto newCategoryDto) {
         return categoryService.updateCategoryById(categoryId, newCategoryDto);
     }
 }

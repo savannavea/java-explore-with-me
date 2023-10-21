@@ -9,8 +9,7 @@ import ru.practicum.mainService.user.dto.UserShortDto;
 
 import java.time.LocalDateTime;
 
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
