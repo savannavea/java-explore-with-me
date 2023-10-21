@@ -1,5 +1,6 @@
 package ru.practicum.mainService.request.mapper;
 
+import lombok.experimental.UtilityClass;
 import ru.practicum.mainService.event.dto.EventRequestStatusUpdateResult;
 import ru.practicum.mainService.request.dto.ParticipationRequestDto;
 import ru.practicum.mainService.request.model.Request;
@@ -8,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@UtilityClass
 public class RequestMapper {
 
     public static ParticipationRequestDto toRequestDto(Request request) {

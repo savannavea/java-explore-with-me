@@ -1,7 +1,6 @@
 package ru.practicum.mainService.event.service;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -10,14 +9,7 @@ import ru.practicum.mainService.category.mapper.CategoryMapper;
 import ru.practicum.mainService.category.model.Category;
 import ru.practicum.mainService.category.repository.CategoryRepository;
 import ru.practicum.mainService.category.service.CategoryService;
-import ru.practicum.mainService.event.dto.Criteria;
-import ru.practicum.mainService.event.dto.CriteriaPub;
-import ru.practicum.mainService.event.dto.EventFullDto;
-import ru.practicum.mainService.event.dto.EventRequestStatusUpdateRequest;
-import ru.practicum.mainService.event.dto.EventRequestStatusUpdateResult;
-import ru.practicum.mainService.event.dto.EventShortDto;
-import ru.practicum.mainService.event.dto.NewEventDto;
-import ru.practicum.mainService.event.dto.UpdateEventRequestDto;
+import ru.practicum.mainService.event.dto.*;
 import ru.practicum.mainService.event.enums.EventSortType;
 import ru.practicum.mainService.event.enums.EventState;
 import ru.practicum.mainService.event.enums.StateAction;
@@ -53,7 +45,6 @@ import java.util.stream.Collectors;
 
 import static ru.practicum.mainService.event.enums.EventState.PUBLISHED;
 
-@Slf4j
 @RequiredArgsConstructor
 @Service
 @Transactional

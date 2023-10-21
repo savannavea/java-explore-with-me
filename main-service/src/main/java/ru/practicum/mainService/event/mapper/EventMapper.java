@@ -1,5 +1,6 @@
 package ru.practicum.mainService.event.mapper;
 
+import lombok.experimental.UtilityClass;
 import ru.practicum.mainService.category.dto.CategoryDto;
 import ru.practicum.mainService.category.mapper.CategoryMapper;
 import ru.practicum.mainService.category.model.Category;
@@ -19,6 +20,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+@UtilityClass
 public class EventMapper {
     public static EventShortDto toEventShortDto(Event event, CategoryDto categoryDto, UserShortDto initiator) {
         return EventShortDto.builder()
