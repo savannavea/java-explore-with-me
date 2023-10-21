@@ -21,6 +21,5 @@ public class StatsMapper {
                 .timestamp(hitRequestDto.getTimestamp())
                 .uri(hitRequestDto.getUri())
                 .build();
-
     }
 }
