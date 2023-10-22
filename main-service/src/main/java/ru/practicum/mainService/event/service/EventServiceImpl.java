@@ -13,7 +13,6 @@ import ru.practicum.mainService.event.mapper.EventMapper;
 import ru.practicum.mainService.event.model.Event;
 import ru.practicum.mainService.event.repository.CustomEventRepository;
 import ru.practicum.mainService.event.repository.EventRepository;
-import ru.practicum.mainService.exception.BadRequestException;
 import ru.practicum.mainService.exception.ConflictException;
 import ru.practicum.mainService.exception.NotFoundException;
 import ru.practicum.mainService.exception.ValidationException;

@@ -29,6 +29,7 @@ public class ErrorHandler {
     public ErrorResponse handleEventUpdateImpossible(ConflictException e) {
         return new ErrorResponse(String.format("Incorrectly request %s", e.getMessage()));
     }
+
     @ExceptionHandler
     @ResponseStatus(HttpStatus.CONFLICT)
     protected ErrorResponse handleDataIntegrityViolationException(DataIntegrityViolationException e) {

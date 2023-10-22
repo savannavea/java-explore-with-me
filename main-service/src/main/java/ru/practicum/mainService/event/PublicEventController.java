@@ -6,6 +6,7 @@ import ru.practicum.mainService.event.dto.EventFullDto;
 import ru.practicum.mainService.event.dto.EventShortDto;
 import ru.practicum.mainService.event.enums.EventSortType;
 import ru.practicum.mainService.event.service.EventService;
+import ru.practicum.mainService.exception.ValidationException;
 
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
@@ -31,6 +32,7 @@ public class PublicEventController {
                                          @RequestParam(required = false, defaultValue = "10") Integer size,
                                          HttpServletRequest request) {
 
+
         LocalDateTime start = null;
         LocalDateTime end = null;
         if (rangeStart != null) {
@@ -38,6 +40,12 @@ public class PublicEventController {
         }
         if (rangeEnd != null) {
             end = LocalDateTime.parse(rangeEnd, dateTimeFormatter);
+        }
+
+        if (start != null && end != null) {
+            if (start.isAfter(end)) {
+                throw new ValidationException(String.format("Start date %s is after end date %s.", start, end));
+            }
         }
         return eventService.getEvents(text, categories, paid, start, end, onlyAvailable, sort, from, size, request);
     }
