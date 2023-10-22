@@ -16,8 +16,6 @@ import ru.practicum.mainService.user.dto.UserShortDto;
 import ru.practicum.mainService.user.mapper.UserMapper;
 import ru.practicum.mainService.user.model.User;
 
-import java.time.LocalDateTime;
-
 @UtilityClass
 public class EventMapper {
     public static EventShortDto toEventShortDto(Event event, CategoryDto categoryDto, UserShortDto initiator) {
@@ -33,21 +31,19 @@ public class EventMapper {
                 .build();
     }
 
-    public static Event toEvent(NewEventDto newEventDto, Category category, Location location,
-                                User initiator) {
+    public static Event toEvent(NewEventDto newEventDto, Category category, Location location, User user) {
         return Event.builder()
-                .category(category)
                 .annotation(newEventDto.getAnnotation())
-                .createdOn(LocalDateTime.now())
+                .category(category)
                 .description(newEventDto.getDescription())
                 .eventDate(newEventDto.getEventDate())
-                .initiator(initiator)
                 .location(location)
                 .paid(newEventDto.getPaid())
                 .participantLimit(newEventDto.getParticipantLimit())
                 .requestModeration(newEventDto.getRequestModeration())
-                .state(EventState.PENDING)
                 .title(newEventDto.getTitle())
+                .initiator(user)
+                .state(EventState.PENDING)
                 .build();
     }
 

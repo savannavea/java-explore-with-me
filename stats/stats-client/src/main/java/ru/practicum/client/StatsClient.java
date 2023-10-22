@@ -21,8 +21,12 @@ import java.util.Map;
 @Service
 public class StatsClient extends BaseClient {
 
+    private static final String API_PREFIX_HIT = "/hit";
+    private static final String API_PREFIX_START = "/stats";
+
+
     @Autowired
-    public StatsClient(@Value("${stats-server.url}") String serverUrl, RestTemplateBuilder builder) {
+    public StatsClient(@Value("${stats-service.url}") String serverUrl, RestTemplateBuilder builder) {
         super(
                 builder
                         .uriTemplateHandler(new DefaultUriBuilderFactory(serverUrl))
@@ -32,9 +36,8 @@ public class StatsClient extends BaseClient {
     }
 
     public ResponseEntity<Object> create(HitRequestDto hitRequestDto) {
-        return post("/hit", hitRequestDto);
+        return post(API_PREFIX_HIT, hitRequestDto);
     }
-
 
     public List<HitResponseDto> getStatistic(LocalDateTime start, LocalDateTime end,
                                              List<String> uris, Boolean unique) {
@@ -45,13 +48,15 @@ public class StatsClient extends BaseClient {
         parameters.put("end", end.format(formatter));
         parameters.put("uris", String.join(",", uris));
         parameters.put("unique", unique);
-        String query = "?start={start}&end={end}&uris={uris}&unique={unique}";
-        get("/hit" + query, parameters);
-        ResponseEntity<List<HitResponseDto>> response = restTemplate.exchange("/hit" + query,
+        var query = "?start={start}&end={end}&uris={uris}&unique={unique}";
+        var view = get(API_PREFIX_START + query, parameters);
+        ResponseEntity<List<HitResponseDto>> response = restTemplate.exchange(API_PREFIX_START + query,
                 HttpMethod.GET, null,
                 new ParameterizedTypeReference<>() {
                 }, parameters);
+        List<HitResponseDto> result = response.getBody();
 
-        return response.getBody();
+        return result;
+
     }
 }
