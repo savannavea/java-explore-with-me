@@ -6,8 +6,8 @@ import ru.practicum.mainService.event.dto.EventFullDto;
 import ru.practicum.mainService.event.dto.EventShortDto;
 import ru.practicum.mainService.event.enums.EventSortType;
 import ru.practicum.mainService.event.service.EventService;
-import ru.practicum.mainService.exception.ValidationException;
 
+import javax.validation.ValidationException;
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
