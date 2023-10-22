@@ -18,6 +18,7 @@ import ru.practicum.mainService.user.model.User;
 
 @UtilityClass
 public class EventMapper {
+
     public static EventShortDto toEventShortDto(Event event, CategoryDto categoryDto, UserShortDto initiator) {
         return EventShortDto.builder()
                 .id(event.getId())
