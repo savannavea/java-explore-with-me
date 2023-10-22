@@ -44,7 +44,6 @@ public class EventServiceImpl implements EventService {
 
     private final EventRepository eventRepository;
     private final LocationRepository locationRepository;
-    private final CategoryRepository categoryRepository;
     private final RequestRepository requestRepository;
     private final CustomEventRepository customEventRepository;
     private final UserService userService;
@@ -192,7 +191,6 @@ public class EventServiceImpl implements EventService {
     public List<EventShortDto> getEvents(String text, List<Long> categories, Boolean paid, LocalDateTime start,
                                          LocalDateTime end, Boolean onlyAvailable, EventSortType sort, Integer from,
                                          Integer size, HttpServletRequest request) {
-
         CriteriaPub criteriaBup = CriteriaPub.builder()
                 .text(text)
                 .categories(categories)
