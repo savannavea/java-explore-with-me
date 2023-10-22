@@ -2,6 +2,7 @@ package ru.practicum.mainService.exception;
 
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -27,6 +28,12 @@ public class ErrorHandler {
     @ExceptionHandler
     @ResponseStatus(HttpStatus.CONFLICT)
     public ErrorResponse handleEventUpdateImpossible(ConflictException e) {
+        return new ErrorResponse(String.format("Incorrectly request %s", e.getMessage()));
+    }
+
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public ErrorResponse handleEventUpdateImpossible(HttpMessageNotReadableException e) {
         return new ErrorResponse(String.format("Incorrectly request %s", e.getMessage()));
     }
 
