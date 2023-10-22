@@ -16,6 +16,7 @@ import ru.practicum.mainService.event.repository.EventRepository;
 import ru.practicum.mainService.exception.BadRequestException;
 import ru.practicum.mainService.exception.ConflictException;
 import ru.practicum.mainService.exception.NotFoundException;
+import ru.practicum.mainService.exception.ValidationException;
 import ru.practicum.mainService.location.dto.LocationDto;
 import ru.practicum.mainService.location.model.Location;
 import ru.practicum.mainService.location.repository.LocationRepository;
@@ -28,7 +29,6 @@ import ru.practicum.mainService.user.model.User;
 import ru.practicum.mainService.user.service.UserService;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.ValidationException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -196,7 +196,7 @@ public class EventServiceImpl implements EventService {
                                          Integer size, HttpServletRequest request) {
         if (start != null && end != null) {
             if (start.isAfter(end)) {
-                throw new ValidationException(String.format("Start date %s is after end date %s.", start, end));
+                throw new ValidationException("Start date %s is after end date %s.");
             }
         }
 
@@ -397,11 +397,5 @@ public class EventServiceImpl implements EventService {
         }
 
         return savedLocation;
-    }
-
-    private void validateEventDate(LocalDateTime eventDate) {
-        if (LocalDateTime.now().plusHours(2).isAfter(eventDate)) {
-            throw new BadRequestException(String.format("Event date=%s cannot be before now + 2 hours date.", eventDate));
-        }
     }
 }

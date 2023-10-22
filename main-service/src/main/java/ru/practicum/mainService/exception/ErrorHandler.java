@@ -7,38 +7,34 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.client.HttpServerErrorException;
 
+import javax.validation.ValidationException;
+
 @RestControllerAdvice
 public class ErrorHandler {
 
-    @ExceptionHandler(ConflictException.class)
-    @ResponseStatus(HttpStatus.CONFLICT)
-    public ErrorResponse handleConflict(final RuntimeException e) {
-        return new ErrorResponse(String.format("Получен статус 409 Conflict", e.getMessage()));
-    }
-
-    @ExceptionHandler(IllegalArgumentException.class)
+    @ExceptionHandler
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ErrorResponse handleIllegalArgument(final IllegalArgumentException e) {
-        return new ErrorResponse(String.format(e.getMessage()));
+    public ErrorResponse handleValidationError(final ValidationException e) {
+        return new ErrorResponse(String.format("validation error: %s", e.getMessage()));
     }
 
-    @ExceptionHandler(BadRequestException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ErrorResponse handleIllegalArgument(final BadRequestException e) {
-        return new ErrorResponse(String.format(e.getMessage()));
-    }
-
-    @ExceptionHandler(NotFoundException.class)
+    @ExceptionHandler
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ErrorResponse handleObjectNotFound(final NotFoundException e) {
-        return new ErrorResponse(String.format("object not found", e.getMessage()));
+        return new ErrorResponse(String.format("object not found: %s", e.getMessage()));
     }
 
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public ErrorResponse handleEventUpdateImpossible(ConflictException e) {
+        return new ErrorResponse(String.format("Incorrectly request %s", e.getMessage()));
+    }
     @ExceptionHandler
     @ResponseStatus(HttpStatus.CONFLICT)
     protected ErrorResponse handleDataIntegrityViolationException(DataIntegrityViolationException e) {
         return new ErrorResponse(String.format("Получен статус 409 Conflict", e.getMessage()));
     }
+
     @ExceptionHandler
     @ResponseStatus(HttpStatus.CONFLICT)
     protected ErrorResponse handleInternalServerError(HttpServerErrorException.InternalServerError e) {
