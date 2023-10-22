@@ -78,7 +78,6 @@ public class EventMapper {
         } else {
             eventFullDto.setConfirmedRequests(0L);
         }
-
         return eventFullDto;
     }
 
