@@ -1,13 +1,14 @@
 package ru.practicum.server.service;
 
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import ru.practicum.server.exception.ValidationException;
 import ru.practicum.server.mapper.StatsMapper;
 import ru.practicum.server.repository.StatsRepository;
 import ru.practicum.statsDto.HitRequestDto;
 import ru.practicum.statsDto.HitResponseDto;
 
+import javax.validation.ValidationException;
 import java.time.LocalDateTime;
 import java.util.List;
 

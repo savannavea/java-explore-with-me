@@ -28,12 +28,14 @@ public class StatsController {
     }
 
     @GetMapping("/stats")
-    public List<HitResponseDto> getStats(@RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-                                         LocalDateTime start,
-                                         @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-                                         LocalDateTime end,
-                                         @RequestParam(required = false) List<String> uris,
-                                         @RequestParam(defaultValue = "false") Boolean unique) {
+    public List<HitResponseDto> getStats(@RequestParam("start")
+                                         @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime start,
+                                         @RequestParam("end")
+                                         @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime end,
+                                         @RequestParam(name = "uris", required = false, defaultValue = "")
+                                         List<String> uris,
+                                         @RequestParam(name = "unique", required = false, defaultValue = "false")
+                                         Boolean unique) {
         return statsService.getStats(start, end, uris, unique);
     }
 }
