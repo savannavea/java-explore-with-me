@@ -8,7 +8,6 @@ import ru.practicum.mainService.event.enums.EventSortType;
 import ru.practicum.mainService.event.service.EventService;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.ValidationException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -40,13 +39,6 @@ public class PublicEventController {
         if (rangeEnd != null) {
             end = LocalDateTime.parse(rangeEnd, dateTimeFormatter);
         }
-
-        if (start != null && end != null) {
-            if (start.isAfter(end)) {
-                throw new ValidationException(String.format("Start date %s is after end date %s.", start, end));
-            }
-        }
-
         return eventService.getEvents(text, categories, paid, start, end, onlyAvailable, sort, from, size, request);
     }
 

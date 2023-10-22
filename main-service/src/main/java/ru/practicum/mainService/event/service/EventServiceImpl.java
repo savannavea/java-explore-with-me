@@ -5,7 +5,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import ru.practicum.mainService.StatisticClient;
 import ru.practicum.mainService.category.model.Category;
-import ru.practicum.mainService.category.repository.CategoryRepository;
 import ru.practicum.mainService.category.service.CategoryService;
 import ru.practicum.mainService.event.dto.*;
 import ru.practicum.mainService.event.enums.EventSortType;
@@ -68,18 +67,22 @@ public class EventServiceImpl implements EventService {
             newEventDto.setRequestModeration(true);
         }
 
-        validateEventDate(newEventDto.getEventDate());
+        if (newEventDto.getRequestModeration() == null) {
+            newEventDto.setRequestModeration(true);
+        }
+        LocalDateTime eventDate = newEventDto.getEventDate();
+        if (eventDate.isBefore(LocalDateTime.now().plusHours(2))) {
+            throw new ConflictException("The event cannot happen earlier than two hours from the current moment!");
+        }
         User user = userService.getUserOrElseThrow(userId);
         Location location = getLocation(newEventDto.getLocation());
         locationRepository.save(location);
         Category categories = categoryService.getCategoryOrElseThrow(newEventDto.getCategory());
-
         Event event = EventMapper.toEvent(newEventDto, categories, location, user);
         event.setConfirmedRequests(0L);
         event.setViews(0L);
         event.setCreatedOn(LocalDateTime.now());
         Event result = eventRepository.save(event);
-
         return EventMapper.toEventFullDto(result);
     }
 
@@ -191,6 +194,12 @@ public class EventServiceImpl implements EventService {
     public List<EventShortDto> getEvents(String text, List<Long> categories, Boolean paid, LocalDateTime start,
                                          LocalDateTime end, Boolean onlyAvailable, EventSortType sort, Integer from,
                                          Integer size, HttpServletRequest request) {
+        if (start != null && end != null) {
+            if (start.isAfter(end)) {
+                throw new ValidationException(String.format("Start date %s is after end date %s.", start, end));
+            }
+        }
+
         CriteriaPub criteriaBup = CriteriaPub.builder()
                 .text(text)
                 .categories(categories)

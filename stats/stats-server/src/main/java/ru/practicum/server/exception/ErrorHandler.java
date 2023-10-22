@@ -6,13 +6,14 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-@RestControllerAdvice
 @Slf4j
+@RestControllerAdvice
 public class ErrorHandler {
 
-    @ExceptionHandler
+    @ExceptionHandler(ValidationException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ErrorResponse handleIllegalArgument(final IllegalArgumentException e) {
-        return new ErrorResponse(String.format(e.getMessage()));
+    protected ErrorResponse handleValidationException(ValidationException e) {
+        log.error(e.getMessage(), e);
+        return new ErrorResponse("Ошибка в запросе", e.getMessage());
     }
 }
