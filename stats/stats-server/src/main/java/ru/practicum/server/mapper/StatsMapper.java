@@ -1,7 +1,9 @@
 package ru.practicum.server.mapper;
+import lombok.experimental.UtilityClass;
 import ru.practicum.server.model.Stat;
 import ru.practicum.statsDto.HitRequestDto;
 
+@UtilityClass
 public class StatsMapper {
 
     public static HitRequestDto toHitRequestDto(Stat stat) {

@@ -1,9 +1,7 @@
 package ru.practicum.server.service;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.server.mapper.StatsMapper;
 import ru.practicum.server.repository.StatsRepository;
 import ru.practicum.statsDto.HitRequestDto;
@@ -12,10 +10,8 @@ import ru.practicum.statsDto.HitResponseDto;
 import java.time.LocalDateTime;
 import java.util.List;
 
-@Slf4j
 @RequiredArgsConstructor
 @Service
-@Transactional
 public class StatsServiceImpl implements StatsService {
 
     private final StatsRepository statsRepository;
@@ -42,6 +38,6 @@ public class StatsServiceImpl implements StatsService {
             } else {
                 return statsRepository.getStatsUri(start, end, uris);
             }
+        }
     }
-}
 }

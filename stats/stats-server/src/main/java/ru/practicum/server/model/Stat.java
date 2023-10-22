@@ -11,7 +11,6 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Entity
 @Table(name = "stats")
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Stat {
 
     @Id

@@ -1,10 +1,10 @@
 package ru.practicum.server.controller;
 
 import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.server.service.StatsService;
 import ru.practicum.statsDto.HitRequestDto;
@@ -13,8 +13,9 @@ import ru.practicum.statsDto.HitResponseDto;
 import java.time.LocalDateTime;
 import java.util.List;
 
+@Validated
 @RestController
-@Slf4j
+@RequestMapping
 @AllArgsConstructor
 public class StatsController {
 
@@ -23,7 +24,7 @@ public class StatsController {
     @PostMapping("/hit")
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<HitRequestDto> create(@RequestBody HitRequestDto hitRequestDto) {
-        return new ResponseEntity<>(statsService.create(hitRequestDto),HttpStatus.CREATED);
+        return new ResponseEntity<>(statsService.create(hitRequestDto), HttpStatus.CREATED);
     }
 
     @GetMapping("/stats")
