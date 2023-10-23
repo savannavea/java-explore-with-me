@@ -25,27 +25,13 @@ public class ErrorHandler {
         return new ErrorResponse(String.format("object not found: %s", e.getMessage()));
     }
 
-    @ExceptionHandler
+    @ExceptionHandler({ConflictException.class,
+            HttpMessageNotReadableException.class,
+            DataIntegrityViolationException.class,
+            HttpServerErrorException.class,
+    })
     @ResponseStatus(HttpStatus.CONFLICT)
-    public ErrorResponse handleEventUpdateImpossible(ConflictException e) {
-        return new ErrorResponse(String.format("Incorrectly request %s", e.getMessage()));
-    }
-
-    @ExceptionHandler
-    @ResponseStatus(HttpStatus.CONFLICT)
-    public ErrorResponse handleEventUpdateImpossible(HttpMessageNotReadableException e) {
-        return new ErrorResponse(String.format("Incorrectly request %s", e.getMessage()));
-    }
-
-    @ExceptionHandler
-    @ResponseStatus(HttpStatus.CONFLICT)
-    protected ErrorResponse handleDataIntegrityViolationException(DataIntegrityViolationException e) {
-        return new ErrorResponse(String.format("Получен статус 409 Conflict", e.getMessage()));
-    }
-
-    @ExceptionHandler
-    @ResponseStatus(HttpStatus.CONFLICT)
-    protected ErrorResponse handleInternalServerError(HttpServerErrorException.InternalServerError e) {
-        return new ErrorResponse(String.format("Получен статус 409 Conflict", e.getMessage()));
+    public ErrorResponse handleValidationException(final RuntimeException e) {
+        return new ErrorResponse(String.format("Received status 409 Conflict", e.getMessage()));
     }
 }

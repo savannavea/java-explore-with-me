@@ -116,11 +116,9 @@ public class CompilationServiceImpl implements CompilationService {
     private List<Event> getFromId(List<Long> evenIdList) {
         List<Event> events = eventRepository.findAllByIdIn(evenIdList);
         if (events.size() != evenIdList.size()) {
-            List<Long> list = new ArrayList<>();
-            for (Event event : events) {
-                Long id = event.getId();
-                list.add(id);
-            }
+            List<Long> list = events.stream()
+                    .map(Event::getId)
+                    .collect(Collectors.toList());
             evenIdList.removeAll(list);
         }
         return events;

@@ -23,7 +23,7 @@ public class RequestController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ParticipationRequestDto createRequest(@PathVariable Long userId, @RequestParam Long eventId) {
-        return requestsService.create(userId, eventId);
+        return requestsService.createRequest(userId, eventId);
     }
 
     @PatchMapping("/{requestId}/cancel")
