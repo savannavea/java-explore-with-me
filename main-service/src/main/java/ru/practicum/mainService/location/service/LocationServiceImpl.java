@@ -8,7 +8,7 @@ import ru.practicum.mainService.exception.ConflictException;
 import ru.practicum.mainService.exception.NotFoundException;
 import ru.practicum.mainService.location.dto.NewLocationDto;
 import ru.practicum.mainService.location.dto.UpdateLocation;
-import ru.practicum.mainService.location.enums.LocationState;
+import ru.practicum.mainService.location.enums.LocationStatus;
 import ru.practicum.mainService.location.mapper.LocationMapper;
 import ru.practicum.mainService.location.model.Location;
 import ru.practicum.mainService.location.repository.LocationRepository;
@@ -35,7 +35,7 @@ public class LocationServiceImpl implements LocationService {
             throw new ConflictException("Such coordinates already exist");
         }
         Location location = LocationMapper.toLocation(newLocationDto);
-        location.setLocationState(LocationState.APPROVED);
+        location.setStatus(LocationStatus.APPROVED);
         locationRepository.save(location);
 
         return LocationMapper.toNewLocationDto(location);
@@ -56,8 +56,8 @@ public class LocationServiceImpl implements LocationService {
         if (updateLocation.getRadius() != null) {
             location.setRadius(updateLocation.getRadius());
         }
-        if (updateLocation.getLocationState() != null) {
-            location.setLocationState(updateLocation.getLocationState());
+        if (updateLocation.getStatus() != null) {
+            location.setStatus(updateLocation.getStatus());
         }
         locationRepository.save(location);
         return LocationMapper.toNewLocationDto(location);
@@ -78,7 +78,7 @@ public class LocationServiceImpl implements LocationService {
     @Override
     public LocationResponseDto getLocationById(Long locId) {
         Location location = getLocationOrElseThrow(locId);
-        if (location.getLocationState() != LocationState.APPROVED) {
+        if (location.getStatus() != LocationStatus.APPROVED) {
             throw new ConflictException("This location is unavailable");
         }
         return LocationMapper.toLocationResponseDto(location);

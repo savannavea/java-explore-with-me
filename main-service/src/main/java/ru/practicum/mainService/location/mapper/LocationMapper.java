@@ -30,7 +30,7 @@ public class LocationMapper {
                 .name(location.getName())
                 .lat(location.getLat())
                 .lon(location.getLon())
-                .locationState(location.getLocationState())
+                .locationState(location.getStatus())
                 .radius(location.getRadius())
                 .build();
     }
@@ -42,7 +42,7 @@ public class LocationMapper {
                 .lat(location.getLat())
                 .lon(location.getLon())
                 .radius(location.getRadius())
-                .locationState(location.getLocationState())
+                .locationState(location.getStatus())
                 .build();
     }
 }

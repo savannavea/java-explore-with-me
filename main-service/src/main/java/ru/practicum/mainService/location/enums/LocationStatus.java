@@ -1,6 +1,6 @@
 package ru.practicum.mainService.location.enums;
 
-public enum LocationState {
+public enum LocationStatus {
     PENDING,
     APPROVED,
     CANCELED

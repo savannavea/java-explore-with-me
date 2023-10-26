@@ -3,7 +3,7 @@ package ru.practicum.mainService.location.dto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import ru.practicum.mainService.location.enums.LocationState;
+import ru.practicum.mainService.location.enums.LocationStatus;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
@@ -28,5 +28,5 @@ public class UpdateLocation {
     @Positive
     private Float radius;
 
-    private LocationState locationState;
+    private LocationStatus status;
 }

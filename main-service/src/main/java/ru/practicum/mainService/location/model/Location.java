@@ -1,7 +1,7 @@
 package ru.practicum.mainService.location.model;
 
 import lombok.*;
-import ru.practicum.mainService.location.enums.LocationState;
+import ru.practicum.mainService.location.enums.LocationStatus;
 
 import javax.persistence.*;
 
@@ -26,8 +26,8 @@ public class Location {
     private Float radius;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "locationState")
-    private LocationState locationState;
+    @Column(name = "status")
+    private LocationStatus status;
 
     public Location(Float lat, Float lon) {
         this.lat = lat;

@@ -12,7 +12,7 @@ CREATE TABLE IF NOT EXISTS locations
     lat FLOAT NOT NULL,
     lon FLOAT NOT NULL,
     radius FLOAT DEFAULT 0,
-    locationState VARCHAR(100)
+    status VARCHAR(100)
     );
 CREATE TABLE IF NOT EXISTS categories
 (

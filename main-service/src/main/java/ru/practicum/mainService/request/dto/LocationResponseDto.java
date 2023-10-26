@@ -3,7 +3,7 @@ package ru.practicum.mainService.request.dto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import ru.practicum.mainService.location.enums.LocationState;
+import ru.practicum.mainService.location.enums.LocationStatus;
 
 @Data
 @Builder
@@ -19,5 +19,5 @@ public class LocationResponseDto {
 
     private Float radius;
 
-    private LocationState locationState;
+    private LocationStatus locationState;
 }
