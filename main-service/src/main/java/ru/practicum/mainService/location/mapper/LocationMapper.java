@@ -2,7 +2,9 @@ package ru.practicum.mainService.location.mapper;
 
 import lombok.experimental.UtilityClass;
 import ru.practicum.mainService.location.dto.LocationDto;
+import ru.practicum.mainService.location.dto.NewLocationDto;
 import ru.practicum.mainService.location.model.Location;
+import ru.practicum.mainService.request.dto.LocationResponseDto;
 
 @UtilityClass
 public class LocationMapper {
@@ -13,10 +15,34 @@ public class LocationMapper {
                 .build();
     }
 
-    public static Location toLocation(LocationDto locationDto) {
+    public static Location toLocation(NewLocationDto newLocationDto) {
         return Location.builder()
-                .lat(locationDto.getLat())
-                .lon(locationDto.getLon())
+                .name(newLocationDto.getName())
+                .lat(newLocationDto.getLat())
+                .lon(newLocationDto.getLon())
+                .radius(newLocationDto.getRadius())
+                .build();
+    }
+
+    public LocationResponseDto toNewLocationDto(Location location) {
+        return LocationResponseDto.builder()
+                .id(location.getId())
+                .name(location.getName())
+                .lat(location.getLat())
+                .lon(location.getLon())
+                .locationState(location.getLocationState())
+                .radius(location.getRadius())
+                .build();
+    }
+
+    public LocationResponseDto toLocationResponseDto(Location location) {
+        return LocationResponseDto.builder()
+                .id(location.getId())
+                .name(location.getName())
+                .lat(location.getLat())
+                .lon(location.getLon())
+                .radius(location.getRadius())
+                .locationState(location.getLocationState())
                 .build();
     }
 }
