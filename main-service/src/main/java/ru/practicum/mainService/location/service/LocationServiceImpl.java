@@ -38,7 +38,7 @@ public class LocationServiceImpl implements LocationService {
         location.setStatus(LocationStatus.APPROVED);
         locationRepository.save(location);
 
-        return LocationMapper.toNewLocationDto(location);
+        return LocationMapper.toLocationResponseDto(location);
     }
 
     @Override
@@ -60,16 +60,17 @@ public class LocationServiceImpl implements LocationService {
             location.setStatus(updateLocation.getStatus());
         }
         locationRepository.save(location);
-        return LocationMapper.toNewLocationDto(location);
+        return LocationMapper.toLocationResponseDto(location);
     }
 
     @Override
     public List<LocationResponseDto> getAllLocations(Integer from, Integer size) {
         int offset = from > 0 ? from / size : 0;
         PageRequest page = PageRequest.of(offset, size, Sort.by("id"));
-        List<Location> locationList = locationRepository.findAll(page).getContent();
 
-        return locationList
+        return locationRepository
+                .findAll(page)
+                .getContent()
                 .stream()
                 .map(LocationMapper::toLocationResponseDto)
                 .collect(Collectors.toList());

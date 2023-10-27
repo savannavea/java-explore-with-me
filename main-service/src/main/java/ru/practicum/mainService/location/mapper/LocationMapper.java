@@ -24,17 +24,6 @@ public class LocationMapper {
                 .build();
     }
 
-    public LocationResponseDto toNewLocationDto(Location location) {
-        return LocationResponseDto.builder()
-                .id(location.getId())
-                .name(location.getName())
-                .lat(location.getLat())
-                .lon(location.getLon())
-                .locationState(location.getStatus())
-                .radius(location.getRadius())
-                .build();
-    }
-
     public LocationResponseDto toLocationResponseDto(Location location) {
         return LocationResponseDto.builder()
                 .id(location.getId())
