@@ -16,7 +16,6 @@ import ru.practicum.mainService.request.dto.LocationResponseDto;
 
 import javax.transaction.Transactional;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -68,12 +67,9 @@ public class LocationServiceImpl implements LocationService {
         int offset = from > 0 ? from / size : 0;
         PageRequest page = PageRequest.of(offset, size, Sort.by("id"));
 
-        return locationRepository
-                .findAll(page)
-                .getContent()
-                .stream()
+        return locationRepository.findAll(page)
                 .map(LocationMapper::toLocationResponseDto)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @Override
