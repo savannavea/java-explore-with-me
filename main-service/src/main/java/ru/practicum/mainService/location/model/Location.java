@@ -1,6 +1,7 @@
 package ru.practicum.mainService.location.model;
 
 import lombok.*;
+import ru.practicum.mainService.location.enums.LocationStatus;
 
 import javax.persistence.*;
 
@@ -12,16 +13,21 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Location {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private long id;
 
-    @Column(name = "lat", nullable = false)
-    private float lat;
+    private Float lat;
 
-    @Column(name = "lon", nullable = false)
-    private float lon;
+    private Float lon;
+
+    private String name;
+
+    private Float radius;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status")
+    private LocationStatus status;
 
     public Location(Float lat, Float lon) {
         this.lat = lat;
